@@ -10,7 +10,7 @@ namespace Crm_UILayer.Controllers
         public IActionResult Index()
         {
             var values =categoryManager.TGetListAll();
-            return View();
+            return View(values);
         }
     }
 }
