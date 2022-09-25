@@ -12,7 +12,7 @@ namespace BusinessLayer.Concrete
     public class EmployeeManager : IEmployeeService
     {
         IEmployeeDal _employeeDal;
-        public Employee GetByID(int id)
+        public Employee TGetByID(int id)
         {
             return _employeeDal.GetByID(id);
         }
