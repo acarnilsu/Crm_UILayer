@@ -12,7 +12,7 @@ namespace BusinessLayer.Concrete
     public class RoleManager : IRoleService
     {
         IRoleDal _roleDal;
-        public Role GetByID(int id)
+        public Role TGetByID(int id)
         {
             return _roleDal.GetByID(id);
         }
