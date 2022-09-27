@@ -1,10 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ErrorMessages\**" />
+    <EmbeddedResource Remove="ErrorMessages\**" />
+    <None Remove="ErrorMessages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DIContainer\" />
     <Folder Include="DIContainer\" />
     <Folder Include="ErrorMessage\" />
     <Folder Include="Logging\" />
