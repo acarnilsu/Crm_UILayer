@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Concrete;
+using BusinessLayer.ValidationRules;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm_UILayer.Controllers
@@ -10,7 +12,7 @@ namespace Crm_UILayer.Controllers
         EmployeeManager employeeManager = new EmployeeManager(new EfEmployeeDal());
         public IActionResult Index()
         {
-            var values = employeeManager.TGetListAll        ();
+            var values = employeeManager.TGetListAll();
             return View(values);
         }
 
@@ -23,8 +25,23 @@ namespace Crm_UILayer.Controllers
         [HttpPost]
         public IActionResult AddEmployee(Employee employee)
         {
-            employeeManager.TInsert(employee);
-            return RedirectToAction("Index");
+            EmployeeValidator validationRules = new EmployeeValidator();
+            ValidationResult result = validationRules.Validate(employee);
+            if (result.IsValid)
+            {
+                employeeManager.TInsert(employee);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+                return View();
+            }
         }
+
+
     }
 }

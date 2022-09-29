@@ -27,6 +27,6 @@ namespace EntityLayer.Concrete
         [StringLength(5)]
         public string EmployeeGender { get; set; }
 
-        public DateTime EmployeeBirth { get; set; }
+        //public DateTime EmployeeBirth { get; set; }
     }
 }

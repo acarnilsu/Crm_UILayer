@@ -42,5 +42,10 @@ namespace BusinessLayer.Concrete
         {
             _productDal.Update(t);
         }
+
+        public List<Product> TGetListProductWithCategory()
+        {
+            return _productDal.GetListProductWithCategory();
+        }
     }
 }
