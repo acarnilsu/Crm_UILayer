@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Concrete;
+﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
@@ -9,10 +10,17 @@ namespace Crm_UILayer.Controllers
 {
     public class EmployeeController : Controller
     {
-        EmployeeManager employeeManager = new EmployeeManager(new EfEmployeeDal());
+
+        private readonly IEmployeeService _employeeService;
+
+        public EmployeeController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
+        }
+
         public IActionResult Index()
         {
-            var values = employeeManager.TGetListAll();
+            var values = _employeeService.TGetListAll();
             return View(values);
         }
 
@@ -29,7 +37,7 @@ namespace Crm_UILayer.Controllers
             ValidationResult result = validationRules.Validate(employee);
             if (result.IsValid)
             {
-                employeeManager.TInsert(employee);
+                _employeeService.TInsert(employee);
                 return RedirectToAction("Index");
             }
             else
