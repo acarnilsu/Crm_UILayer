@@ -34,8 +34,4 @@
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewComponent\" />
-  </ItemGroup>
-
 </Project>
