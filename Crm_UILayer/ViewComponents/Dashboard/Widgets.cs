@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Crm_UILayer.ViewComponents.Dashboard
 {
@@ -8,7 +9,7 @@ namespace Crm_UILayer.ViewComponents.Dashboard
         Context context = new Context();
         public IViewComponentResult Invoke()
         {
-           // ViewBag.v = context.Categories.Count();
+            ViewBag.v = context.Categories.Count();
             return View();
         }
     }
