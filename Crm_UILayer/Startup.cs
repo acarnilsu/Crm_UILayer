@@ -1,5 +1,6 @@
 using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
+using Crm_UILayer.Models;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
@@ -33,12 +34,7 @@ namespace Crm_UILayer
             services.AddScoped<IEmployeeDal, EfEmployeeDal>();
 
             services.AddDbContext<Context>();
-            services.AddIdentity<AppUser, AppRole>(x =>
-            {
-                x.Password.RequireUppercase = false;
-                x.Password.RequireNonAlphanumeric = false;
-                x.Password.RequiredLength = 3;
-            }).AddEntityFrameworkStores<Context>();
+            services.AddIdentity<AppUser, AppRole>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
 
             services.AddControllersWithViews();
         }
