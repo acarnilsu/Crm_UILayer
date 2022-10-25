@@ -36,12 +36,17 @@ namespace BusinessLayer.Concrete
 
         public List<Message> TGetReceiverMessageList(string mail)
         {
-            throw new NotImplementedException();
+            return _messageDal.GetReceiverMessageList(mail);
+        }
+
+        public List<Message> TGetSenderMessageList(string mail)
+        {
+            return _messageDal.GetSenderMessageList(mail);
         }
 
         public void TInsert(Message t)
         {
-            throw new NotImplementedException();
+            _messageDal.Insert(t);
         }
 
         public void TUpdate(Message t)

@@ -13,9 +13,14 @@ namespace DataAccessLayer.EntityFramework
     public class EfMessageDal : GenericRepository<Message>, IMessageDal
     {
         Context context = new Context();
-        public List<Message> GetReceiverMessageList()
+        public List<Message> GetReceiverMessageList(string mail)
         {
-            throw new NotImplementedException();
+            return context.Messages.Where(x=>x.ReceiverMail == mail).ToList();
+        }
+
+        public List<Message> GetSenderMessageList(string mail)
+        {
+            return context.Messages.Where(x => x.SenderMail == mail).ToList();
         }
     }
 }

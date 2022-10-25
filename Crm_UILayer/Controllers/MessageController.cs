@@ -1,7 +1,10 @@
 ﻿using BusinessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Crm_UILayer.Controllers
@@ -20,14 +23,17 @@ namespace Crm_UILayer.Controllers
 
         public async Task<IActionResult> Inbox()
         {
-            var mail = await _userManager.FindByEmailAsync(User.Identity.Name);
-            ViewBag.v = mail;
+            var mail = await _userManager.FindByNameAsync(User.Identity.Name);
+            ViewBag.v = mail.Email;
             var values = _messageService.TGetReceiverMessageList(mail.Email);
-            return View();
+            return View(values);
         }
-        public IActionResult Outbox()
+        public async Task<IActionResult> Outbox()
         {
-            return View();
+            var mail = await _userManager.FindByNameAsync(User.Identity.Name);
+            ViewBag.v = mail.Email;
+            var values = _messageService.TGetSenderMessageList(mail.Email);
+            return View(values);
         }
         [HttpGet]
         public IActionResult SendMessage()
@@ -36,9 +42,16 @@ namespace Crm_UILayer.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendMessage(Message p)
+        public async Task<IActionResult> SendMessage(Message p)
         {
-            return View();
+            Context c = new Context();
+            var mail = await _userManager.FindByNameAsync(User.Identity.Name);
+            p.ReceiverName = c.Users.Where(x => x.Email == p.ReceiverMail).Select(y => y.Name + " " + y.Surname).FirstOrDefault();
+            p.SenderName = mail.Name + " " + mail.Surname;
+            p.SenderMail = mail.Email;
+            p.Date = DateTime.Parse(DateTime.Now.ToShortDateString());
+            _messageService.TInsert(p);
+            return RedirectToAction("Outbox");
         }
 
         public IActionResult MessageDetails(int id)
