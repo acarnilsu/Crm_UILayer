@@ -37,7 +37,16 @@ namespace Crm_UILayer
             services.AddScoped<IMessageDal, EfMessageDal>();
 
             services.AddDbContext<Context>();
-            services.AddIdentity<AppUser, AppRole>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
+            services.AddIdentity<AppUser, AppRole>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;
+                opts.User.AllowedUserNameCharacters = "abcçdefghiýjklmnoöpqrsþtuüvwxyzABCDEFGHIÝJKLMNOÖPQRSTUÜVWXYZ0123456789-._@+";
+                opts.Password.RequiredLength = 3;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireDigit = false;
+                opts.Password.RequireUppercase = false;
+            })
+                .AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
 
             services.AddControllersWithViews();
         }
