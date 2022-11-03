@@ -1,16 +1,29 @@
-﻿using BusinessLayer.Concrete;
+﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Crm_UILayer.Controllers
 {
     public class CategoryController : Controller
-    { 
-        CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+    {
+        private readonly ICategoryService _categoryService;
+
+        public CategoryController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
+
         public IActionResult Index()
         {
-            var values =categoryManager.TGetListAll();
-            return View(values);
+            return View();
+        }
+
+        public IActionResult ListCategory()
+        {
+            var values = JsonConvert.SerializeObject(_categoryService.TGetListAll());
+            return Json(values);
         }
     }
 }

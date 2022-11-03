@@ -2,8 +2,6 @@
 @{
     ViewData["Title"] = "UserList";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
-}
-@{
     int sayac = 0;
 }
 
@@ -20,7 +18,7 @@
         <tr>
             <td>@sayac</td>
             <td>@item.Name @item.Surname</td>
-            <td><a href="#" class="btn btn-dark">Rol Ata</a></td>
+            <td><a href="/Role/AssignRole/@item.Id" class="btn btn-dark">Rol Ata</a></td>
         </tr>
     }
 </table>
