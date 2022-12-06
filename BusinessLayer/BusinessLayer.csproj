@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DIContainer\" />
-    <Folder Include="DIContainer\" />
     <Folder Include="ErrorMessage\" />
     <Folder Include="Logging\" />
   </ItemGroup>
@@ -23,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+    <ProjectReference Include="..\DTOLayer\DTOLayer.csproj" />
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
   </ItemGroup>
 

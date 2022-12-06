@@ -1,10 +1,14 @@
 using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
+using BusinessLayer.ValidationRules.AnnouncementValidationRules;
 using Crm_UILayer.Models;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
+using DTOLayer.DTOs.AnnouncementDtos;
 using EntityLayer.Concrete;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,14 +34,10 @@ namespace Crm_UILayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IEmployeeService, EmployeeManager>();
-            services.AddScoped<IEmployeeDal, EfEmployeeDal>();
 
-            services.AddScoped<IMessageService, MessageManager>();
-            services.AddScoped<IMessageDal, EfMessageDal>();
 
-            services.AddScoped<ICategoryService, CategoryManager>();
-            services.AddScoped<ICategoryDal, EfCategoryDal>();
+            services.AddTransient<IValidator<AnnouncementAddDto>, AnnouncementAddValidator>();
+            services.AddTransient<IValidator<AnnouncementUpdateDto>, AnnouncementUpdateValidator>();
 
             services.AddDbContext<Context>();
             services.AddIdentity<AppUser, AppRole>(opts =>
@@ -51,7 +51,7 @@ namespace Crm_UILayer
             })
                 .AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
