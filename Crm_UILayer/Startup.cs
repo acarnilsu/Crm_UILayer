@@ -1,24 +1,13 @@
-using BusinessLayer.Abstract;
-using BusinessLayer.Concrete;
-using BusinessLayer.ValidationRules.AnnouncementValidationRules;
+using BusinessLayer.DIContainer;
 using Crm_UILayer.Models;
-using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
-using DataAccessLayer.EntityFramework;
-using DTOLayer.DTOs.AnnouncementDtos;
 using EntityLayer.Concrete;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Crm_UILayer
 {
@@ -34,10 +23,11 @@ namespace Crm_UILayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ContainerDependencies();
+            services.AddAutoMapper(typeof(Startup));
+            services.DtoValidator();
 
 
-            services.AddTransient<IValidator<AnnouncementAddDto>, AnnouncementAddValidator>();
-            services.AddTransient<IValidator<AnnouncementUpdateDto>, AnnouncementUpdateValidator>();
 
             services.AddDbContext<Context>();
             services.AddIdentity<AppUser, AppRole>(opts =>
